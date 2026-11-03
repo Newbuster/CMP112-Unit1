@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class Swordmovement : MonoBehaviour
 {
@@ -12,20 +13,29 @@ public class Swordmovement : MonoBehaviour
     {
        
         offset = transform.position - Player.transform.position;
+       
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
       
-
+        //gets player's rotation and isolates the y rotation value
         rota = Player.transform.eulerAngles;
-        Vector3 rotaoffset = new Vector3(rota.x, 0, 0)*1;
+        Vector3 rotatarget = new Vector3(0, rota.y, 0) *1;
+
+        //sets position and rotation to allign with player
+
+        StartCoroutine(Lagbehind(rotatarget, Player.transform.position));
+       
+    }
+
+    IEnumerator Lagbehind(Vector3 rotatarget, Vector3 plyrtransform)
+    {
+        yield return new WaitForSeconds(0.1f);
+        transform.position = plyrtransform + offset;
+        transform.eulerAngles = rotatarget;
 
 
-
-
-        transform.position = Player.transform.position+offset; //+ rotaoffset;
-        transform.eulerAngles = rota;
     }
 }
