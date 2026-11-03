@@ -65,7 +65,7 @@ public class Playermovement : MonoBehaviour
 
         }
         
-
+        //jumping lalala
         if (Input.GetKey(KeyCode.Space)) 
         {
             print(Jumpcd);
