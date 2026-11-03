@@ -35,10 +35,16 @@ public class enemyMovement : MonoBehaviour
         Vector3 moveVector = new Vector3(x, y, z);
         rb.AddForce(moveVector.normalized * speed);
 
-        //Apply drag if  moving faster than maxSpeed
+        //Apply drag if moving faster than maxSpeed
         if (rb.linearVelocity.magnitude > maxSpeed)
         {
             rb.AddForce(-rb.linearVelocity * rb.linearVelocity.magnitude * drag);
+        }
+
+        //Hover above the ground
+        if (Physics.Raycast(currentPos, Vector3.down, 1))
+        {
+            rb.AddForce(Vector3.up * (rb.mass * 9.8f + 4));
         }
     }
 }
