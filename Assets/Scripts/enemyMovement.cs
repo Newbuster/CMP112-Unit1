@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Assemblies;
 using static UnityEngine.Mathf;
@@ -5,12 +6,31 @@ using static UnityEngine.Mathf;
 public class enemyMovement : MonoBehaviour
 {
     private Rigidbody rb;
+    private bool dashing;
 
     public GameObject player;
     public float speed;
     public float maxSpeed;
     public float drag;
+    public float dashDist;
+    public float dashDelay;
+    public float dashLength;
+    public float dashMult;
 
+
+    IEnumerator dash(Vector3 moveVector)
+    {
+        //Stop moving
+        dashing = true;
+        rb.linearVelocity = Vector3.zero;
+
+        //Dash after a delay
+        rb.AddForce(moveVector.normalized * speed * dashMult, ForceMode.Impulse);
+
+        //Wait until dash finished
+        yield return new WaitForSeconds(dashLength);
+        dashing = false;
+    }
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -31,9 +51,25 @@ public class enemyMovement : MonoBehaviour
         float y = playerPos.y - currentPos.y;
         float z = playerPos.z - currentPos.z;
 
-        //Create and apply movement vector
+        //Create movement vector
         Vector3 moveVector = new Vector3(x, y, z);
-        rb.AddForce(moveVector.normalized * speed);
+
+        //Ram the player if within range
+        if (moveVector.magnitude <= dashDist && !dashing)
+        {
+            StartCoroutine(dash(moveVector));
+        }
+        else if (moveVector.magnitude > dashDist)
+        {
+            StopCoroutine(dash(moveVector));
+            dashing = false;
+        }
+
+        //Move towards the player if not dashing
+        if (!dashing)
+        {
+            rb.AddForce(moveVector.normalized * speed);
+        }
 
         //Apply drag if moving faster than maxSpeed
         if (rb.linearVelocity.magnitude > maxSpeed)

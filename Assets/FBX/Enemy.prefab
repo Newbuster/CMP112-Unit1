@@ -157,4 +157,7 @@ MonoBehaviour:
   speed: 10
   maxSpeed: 5
   drag: 0.5
-  hoverDist: 9.8
+  dashDist: 5
+  dashDelay: 0.25
+  dashLength: 1
+  dashMult: 1.5
