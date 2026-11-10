@@ -3,12 +3,9 @@ using System.Collections;
 
 public class Hitboxscript : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
-    {
-        print("hitbox exists!");
-        StartCoroutine(Deletion());
-    }
+    private GameObject damager;
+
+
 
     // Update is called once per frame
     void Update()
@@ -16,11 +13,18 @@ public class Hitboxscript : MonoBehaviour
         
     }
 
-    IEnumerator Deletion()
+
+
+    private void OnTriggerEnter(Collider other)
     {
-        yield return new WaitForSeconds(0.5f);
-        Destroy(gameObject);
+        damager.GetComponent<Damager>().SetTarget(other.gameObject);
     }
+
+    public void setmommy(GameObject mom)
+    {
+        damager = mom;
+    }
+
 
 
 }

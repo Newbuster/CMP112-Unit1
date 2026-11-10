@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class PlayerOffensecontroller : MonoBehaviour
 {
    
-    public GameObject swrdHB;
+    public GameObject swrdATK;
     private bool atkready;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -23,7 +23,7 @@ public class PlayerOffensecontroller : MonoBehaviour
             atkready = false;
             print("atkready is now false");
 
-            StartCoroutine(CreateHB());
+            StartCoroutine(Attack());
             
             StartCoroutine(Basicattackcd());
         }
@@ -36,22 +36,19 @@ public class PlayerOffensecontroller : MonoBehaviour
         print("atkready is now true");
     }
 
-    IEnumerator CreateHB()
+    IEnumerator Attack()
     {
         for (int i = 0; i < 2; i++)
         {
             //swings twice
-            yield return new WaitForSeconds(0.2f);
-            for (int x = 0; x < 5; x++)
-            {
-                //spawns multiple hitboxes to smoothen reach. Needs parenting before working on actual functions
-                yield return new WaitForSeconds(0.025f);
-                GameObject Hitbox;
-                Hitbox = Instantiate(swrdHB, transform.position + transform.forward, transform.rotation);
-                print("created hitbox");
-                swrdHB.transform.eulerAngles = transform.eulerAngles;
-                swrdHB.transform.position = transform.position;
-            }
+
+           //spawns a damager which will create hitboxes and things
+            GameObject Damagerobject = Instantiate(swrdATK, transform.position + transform.forward, transform.rotation);
+            Damagerobject.transform.parent = transform;
+            Damagerobject.GetComponent<Damager>().Setdmg(12);
+            Destroy(Damagerobject, 0.5f);
+
+            yield return new WaitForSeconds(0.5f);
         }
      
         
