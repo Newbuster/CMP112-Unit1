@@ -48,8 +48,9 @@ public class Playermovement : MonoBehaviour
             }
         }
 
+
         //Sets player's rotation to direction of movement only when player is moving
-        if (Input.anyKey == true)
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) == true)
         {
             rb.angularVelocity = Vector3.zero;
             Vector3 rotation = new Vector3(0, angle, 0);
@@ -68,16 +69,15 @@ public class Playermovement : MonoBehaviour
         //jumping lalala
         if (Input.GetKey(KeyCode.Space)) 
         {
-            print(Jumpcd);
+        
             if (Physics.Raycast(transform.position, Vector3.down, 0.5f))
             {
                 if (Jumpcd == 0)
                 {
-                    print("Jumping");
+                   
                     rb.AddForce (new Vector3(0, 5, 0), ForceMode.Impulse);
                      Jumpcd = 25;
-                    print("Jump cd is now: ");
-                    print(Jumpcd);
+                 
                 }
                 
             }

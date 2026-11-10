@@ -7,6 +7,7 @@ public class Swordmovement : MonoBehaviour
     public GameObject Player;
     private Vector3 offset;
     private Vector3 rota;
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -27,15 +28,18 @@ public class Swordmovement : MonoBehaviour
         //sets position and rotation to allign with player
 
         StartCoroutine(Lagbehind(rotatarget, Player.transform.position));
+
+
        
     }
 
     IEnumerator Lagbehind(Vector3 rotatarget, Vector3 plyrtransform)
     {
+        //makes sword follow behind slower
         yield return new WaitForSeconds(0.1f);
         transform.position = plyrtransform + offset;
         transform.eulerAngles = rotatarget;
 
-
     }
+
 }
