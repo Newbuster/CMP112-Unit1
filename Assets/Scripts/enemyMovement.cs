@@ -1,21 +1,25 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Assemblies;
-using static UnityEngine.Mathf;
 
 public class enemyMovement : MonoBehaviour
 {
     private Rigidbody rb;
-    private bool dashing;
 
     public GameObject player;
+
     public float speed;
     public float maxSpeed;
     public float drag;
+
+    private bool dashing;
     public float dashDist;
     public float dashDelay;
     public float dashLength;
     public float dashMult;
+
+    private bool colliding;
+    public float knockbackMult;
+    public float iframes;
 
 
     IEnumerator dash(Vector3 moveVector)
@@ -24,7 +28,7 @@ public class enemyMovement : MonoBehaviour
         dashing = true;
         rb.linearVelocity = Vector3.zero;
 
-        //Dash after a delay
+        //Dash
         rb.AddForce(moveVector.normalized * speed * dashMult, ForceMode.Impulse);
 
         //Wait until dash finished
@@ -32,6 +36,21 @@ public class enemyMovement : MonoBehaviour
         dashing = false;
     }
 
+
+    IEnumerator knockback()
+    {
+        //Stops any dashes in progress and any further movement
+        colliding = true;
+        StopCoroutine(dash(Vector3.zero));
+
+        //Knocks enemy in the opposite direction
+        rb.AddForce(rb.linearVelocity.normalized * speed * -knockbackMult, ForceMode.Impulse);
+
+        //Resets and enables movement after knockback is over
+        yield return new WaitForSeconds(iframes);
+        rb.linearVelocity = Vector3.zero;
+        colliding = false;
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -54,21 +73,26 @@ public class enemyMovement : MonoBehaviour
         //Create movement vector
         Vector3 moveVector = new Vector3(x, y, z);
 
-        //Ram the player if within range
-        if (moveVector.magnitude <= dashDist && !dashing)
+        //Move if not being knocked back
+        if (!colliding)
         {
-            StartCoroutine(dash(moveVector));
-        }
-        else if (moveVector.magnitude > dashDist)
-        {
-            StopCoroutine(dash(moveVector));
-            dashing = false;
-        }
+            //Ram the player if within range
+            if (moveVector.magnitude <= dashDist && !dashing)
+            {
+                StartCoroutine(dash(moveVector));
+            }
+            //Cancel ram if player moves out of range
+            else if (moveVector.magnitude > dashDist)
+            {
+                StopCoroutine(dash(moveVector));
+                dashing = false;
+            }
 
-        //Move towards the player if not dashing
-        if (!dashing)
-        {
-            rb.AddForce(moveVector.normalized * speed);
+            //Move towards the player if not dashing
+            if (!dashing)
+            {
+                rb.AddForce(moveVector.normalized * speed);
+            }
         }
 
         //Apply drag if moving faster than maxSpeed
@@ -83,4 +107,15 @@ public class enemyMovement : MonoBehaviour
             rb.AddForce(Vector3.up * (rb.mass * 9.8f + 4));
         }
     }
+
+    //Called upon collision with the sword during an attack
+    void OnTriggerEnter(Collider other)
+    {
+        //Checks for repeat collisions
+        if (!colliding)
+        {
+            StartCoroutine(knockback());
+        }
+    }
+
 }

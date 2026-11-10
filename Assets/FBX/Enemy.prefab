@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 9027604495421746018}
   - component: {fileID: 938618964883859557}
   - component: {fileID: 278539750831863631}
+  - component: {fileID: 3850340530044558108}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -30,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 3436071661732833904}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.496, y: 0.72179997, z: 0.31686}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.62877, y: 0.62877, z: 0.62877}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -153,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ec95b09c8c468043bb8515deceaf82b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  player: {fileID: 0}
+  player: {fileID: 919132149155446097, guid: e3ba3c11dc255334e82c345c9578d13e, type: 3}
   speed: 10
   maxSpeed: 5
   drag: 0.5
@@ -161,3 +162,20 @@ MonoBehaviour:
   dashDelay: 0.25
   dashLength: 1
   dashMult: 1.5
+  knockbackMult: 3
+  iframes: 0.75
+--- !u!114 &3850340530044558108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3436071661732833904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27b4c4599c2602b4f85445721e5ff1d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  sword: {fileID: 5021910638579597129, guid: 1600a52c1fd50564e8af55288b1bb83f, type: 3}
+  iframes: 0.75
+  health: 5
