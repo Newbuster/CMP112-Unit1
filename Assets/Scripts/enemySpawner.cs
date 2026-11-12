@@ -4,6 +4,7 @@ using UnityEngine;
 public class enemySpawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
+    public int spawnCap;
     public float spawnDelay;
     private bool spawn = true;
 
@@ -22,6 +23,7 @@ public class enemySpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         //Checks if spawning is enabled
         if (spawn)
         {

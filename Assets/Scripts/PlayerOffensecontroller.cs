@@ -21,7 +21,6 @@ public class PlayerOffensecontroller : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && atkready == true)
         {
             atkready = false;
-            print("atkready is now false");
 
             StartCoroutine(Attack());
             
@@ -33,7 +32,6 @@ public class PlayerOffensecontroller : MonoBehaviour
         //cooldown control
         yield return new WaitForSeconds(0.5f);
         atkready = true;
-        print("atkready is now true");
     }
 
     IEnumerator Attack()
@@ -45,7 +43,6 @@ public class PlayerOffensecontroller : MonoBehaviour
            //spawns a damager which will create hitboxes and things
             GameObject Damagerobject = Instantiate(swrdATK, transform.position + transform.forward, transform.rotation);
             Damagerobject.transform.parent = transform;
-            Damagerobject.GetComponent<Damager>().Setdmg(12);
             Destroy(Damagerobject, 0.5f);
 
             yield return new WaitForSeconds(0.5f);
