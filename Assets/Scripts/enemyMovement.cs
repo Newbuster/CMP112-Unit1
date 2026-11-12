@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class enemyMovement : MonoBehaviour
@@ -106,6 +107,9 @@ public class enemyMovement : MonoBehaviour
         {
             rb.AddForce(Vector3.up * (rb.mass * 9.8f + 4));
         }
+
+        //Spin
+        rb.angularVelocity = Vector3.Lerp(rb.angularVelocity, new Vector3(1, 1, 1), 0.5f);
     }
 
     //Called upon collision with the sword during an attack

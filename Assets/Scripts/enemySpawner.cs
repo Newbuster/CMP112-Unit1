@@ -1,14 +1,15 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class enemySpawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
-    public int spawnCap;
     public float spawnDelay;
     private bool spawn = true;
 
     public GameObject player;
+    public GameObject camera;
 
     IEnumerator spawnWait()
     {
@@ -32,9 +33,13 @@ public class enemySpawner : MonoBehaviour
             enemy = Instantiate(enemyPrefab);
             enemy.transform.position = transform.position;
 
-            //Gets enemyMovement scripts from newly created enemy and stores the player
-            enemyMovement moveScript = enemy.GetComponent("enemyMovement") as enemyMovement;
+            //Gets enemyMovement script from newly created enemy and stores the player
+            enemyMovement moveScript = enemy.GetComponent<enemyMovement>();
             moveScript.player = player;
+
+            //Gets healthbarBillboard script from newly created enemy and stores the camera
+            healthbarBillboard healthScript = enemy.GetComponentInChildren<healthbarBillboard>();
+            healthScript.camera = camera;
 
             //Delays next spawn
             StartCoroutine(spawnWait());
