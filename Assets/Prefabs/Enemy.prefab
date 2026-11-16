@@ -292,6 +292,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   iframes: 0.75
   health: 100
+  maxHealth: 0
 --- !u!114 &4504712246722069361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,7 +313,7 @@ MonoBehaviour:
   dashDelay: 0.25
   dashLength: 1
   dashMult: 1.5
-  knockbackMult: 3
+  knockbackMult: 15
   iframes: 0.75
 --- !u!1 &3327197554484703912
 GameObject:

@@ -11,7 +11,7 @@ public class Playermovement : MonoBehaviour
     public float maxspeed = 10;
     public float drag = 0.1f;
     private int Jumpcd = 0;
-
+    private int Dashcd = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -68,9 +68,15 @@ public class Playermovement : MonoBehaviour
             {
                 Jumpcd--;
             }
-
         }
-        
+        if (Dashcd > 0)
+        {
+            if (Physics.Raycast(transform.position, Vector3.down, 0.25f))
+            {
+                Dashcd--;
+            }
+        }
+
         //jumping lalala
         if (Input.GetKey(KeyCode.Space)) 
         {
@@ -80,7 +86,7 @@ public class Playermovement : MonoBehaviour
                 if (Jumpcd == 0)
                 {
                    
-                    rb.AddForce (new Vector3(0, 10, 0), ForceMode.Impulse);
+                    rb.AddForce (new Vector3(0, 80, 0), ForceMode.Impulse);
                      Jumpcd = 25;
                  
                 }
@@ -88,6 +94,26 @@ public class Playermovement : MonoBehaviour
             }
         }
 
-      
+        //dashing lalala
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+
+            if (Physics.Raycast(transform.position, Vector3.down, 0.25f))
+            {
+                print("grounddashing");
+                if (Dashcd == 0)
+                {
+
+                    rb.AddForce(transform.forward * 40, ForceMode.Impulse);
+                    Dashcd = 25;
+
+                } 
+
+            }
+
+            
+        }
+
+
     }
 }
