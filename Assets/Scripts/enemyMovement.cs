@@ -1,5 +1,5 @@
 using System.Collections;
-using Unity.VisualScripting;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class enemyMovement : MonoBehaviour
@@ -21,10 +21,17 @@ public class enemyMovement : MonoBehaviour
     private bool colliding;
     public float knockbackMult;
     public float iframes;
+    private Slider hpBar;
 
+    void Start()
+    {
 
+        rb = GetComponent<Rigidbody>();
+
+    }
     IEnumerator dash(Vector3 moveVector)
     {
+       
         //Stop moving
         dashing = true;
         rb.linearVelocity = Vector3.zero;
@@ -40,6 +47,7 @@ public class enemyMovement : MonoBehaviour
 
     IEnumerator knockback()
     {
+       
         //Stops any dashes in progress and any further movement
         colliding = true;
         StopCoroutine(dash(Vector3.zero));
@@ -54,10 +62,6 @@ public class enemyMovement : MonoBehaviour
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        rb = GetComponent<Rigidbody>();
-    }
 
     // Update is called once per frame
     void FixedUpdate()

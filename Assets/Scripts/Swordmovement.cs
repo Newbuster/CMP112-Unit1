@@ -1,12 +1,13 @@
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class Swordmovement : MonoBehaviour
 {
    
     public GameObject Player;
     private Vector3 offset;
-    private Vector3 rota;
+    private bool swinging;
     
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -14,32 +15,45 @@ public class Swordmovement : MonoBehaviour
     {
        
         offset = transform.position - Player.transform.position;
+        swinging = false;
        
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-      
+  
         //gets player's rotation and isolates the y rotation value
-        rota = Player.transform.eulerAngles;
-        Vector3 rotatarget = new Vector3(0, rota.y, 0) *1;
+        if (swinging == false)
+        {
+            transform.rotation = Quaternion.Euler(0, Player.transform.eulerAngles.y, 0);
+        }
 
-        //sets position and rotation to allign with player
-
-        StartCoroutine(Lagbehind(rotatarget, Player.transform.position));
-
-
-       
+        transform.position = Player.transform.position + offset;
     }
 
-    IEnumerator Lagbehind(Vector3 rotatarget, Vector3 plyrtransform)
+    public IEnumerator Swing()
     {
-        //makes sword follow behind slower
-        yield return new WaitForSeconds(0.1f);
-        transform.position = plyrtransform + offset;
-        transform.eulerAngles = rotatarget;
+        
+        swinging = true;
+        float swingtime = 0.25f;
+        float timer = 0f;
+        float cAngle;
+  
+
+        print("swinging");
+        do
+        {
+            timer += Time.deltaTime;
+            cAngle = (270*timer/swingtime);
+            transform.rotation = Quaternion.Euler(0, Player.transform.eulerAngles.y, 0) * Quaternion.Euler(0, cAngle, 0);
+          
+            yield return null;
+        } while (timer <= swingtime);
+
+        swinging = false;
 
     }
+
 
 }

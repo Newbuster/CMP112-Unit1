@@ -8,20 +8,21 @@ public class enemyCollide : MonoBehaviour
     private bool colliding = false;
     public float iframes;
     public float health;
-    private float maxHealth;
+    public float maxHealth;
     private Slider hpBar;
-
-    IEnumerator dealDamage()
+ 
+    IEnumerator dealDamage(int dmgAmt)
     {
         //Stops further collisions from causing damage 
         colliding = true;
         yield return new WaitForSeconds(iframes);
 
         //Deals damage
-        health -= 1;
+        health -= 35;
+   
 
         //Kills enemy if health reaches 0
-        if (health == 0)
+        if (health <= 0)
         {
             print("Enemy Defeated");
             Destroy(gameObject);
@@ -29,7 +30,7 @@ public class enemyCollide : MonoBehaviour
         else
         {
             print("Health: " + health + "   Max Health: " + maxHealth);
-            hpBar.value = health / maxHealth;
+        
         }
 
         colliding = false;
@@ -42,13 +43,19 @@ public class enemyCollide : MonoBehaviour
         hpBar = transform.Find("Canvas").Find("HealthBar").GetComponent<Slider>();
     }
 
+    private void FixedUpdate()
+    {
+        hpBar.value = health / maxHealth;
+    }
+
     //Called upon collision with the sword during an attack
     void OnTriggerEnter(Collider other)
     {
+ 
         //Checks for repeat collisions
         if (!colliding)
         {
-            StartCoroutine(dealDamage());
+            StartCoroutine(dealDamage(other.GetComponent<Hitboxscript>().Damage));
         }
     }
 }

@@ -23,14 +23,19 @@ public class Playermovement : MonoBehaviour
         // Update is called once per frame
         void FixedUpdate()
     {
+        if (!Physics.Raycast(transform.position, Vector3.down, 0.5f))
+        {
+            rb.AddForce(new Vector3(0, -10, 0));
+
+        }
         float movementx = Input.GetAxis("Horizontal");
         float movementy = Input.GetAxis("Vertical");
         float angle = Mathf.Atan2(movementx, movementy) * Mathf.Rad2Deg;
-      
 
+        rb.angularVelocity = Vector3.zero;
         //Takes player input and creates a vector force in that direction.
         Vector3 movevector = new Vector3(movementx, 0.0f, movementy);
-        rb.AddForce(movevector * speed);
+        rb.AddForce(movevector * speed*2);
         rb.AddForce(new Vector3(0, -9, 0));
 
         //If player is faster than max speed, apply drag
@@ -44,7 +49,7 @@ public class Playermovement : MonoBehaviour
         {
             if (Input.anyKey == false)
             {
-                rb.AddForce(-rb.linearVelocity * 5);
+                rb.AddForce(-rb.linearVelocity * 50);
             }
         }
 
@@ -52,7 +57,7 @@ public class Playermovement : MonoBehaviour
         //Sets player's rotation to direction of movement only when player is moving
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) == true)
         {
-            rb.angularVelocity = Vector3.zero;
+          
             Vector3 rotation = new Vector3(0, angle, 0);
             transform.eulerAngles = rotation;
         }
@@ -75,14 +80,14 @@ public class Playermovement : MonoBehaviour
                 if (Jumpcd == 0)
                 {
                    
-                    rb.AddForce (new Vector3(0, 5, 0), ForceMode.Impulse);
+                    rb.AddForce (new Vector3(0, 10, 0), ForceMode.Impulse);
                      Jumpcd = 25;
                  
                 }
                 
             }
         }
- 
 
+      
     }
 }

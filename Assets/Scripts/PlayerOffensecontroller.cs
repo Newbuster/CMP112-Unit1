@@ -4,13 +4,15 @@ using UnityEngine.InputSystem;
 
 public class PlayerOffensecontroller : MonoBehaviour
 {
-   
+    public GameObject sword;
+    private Swordmovement swordscript;
     public GameObject swrdATK;
     private bool atkready;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        swordscript = sword.GetComponent<Swordmovement>();
         atkready = true;
     }
 
@@ -39,7 +41,7 @@ public class PlayerOffensecontroller : MonoBehaviour
         for (int i = 0; i < 2; i++)
         {
             //swings twice
-
+           StartCoroutine(swordscript.Swing()); 
            //spawns a damager which will create hitboxes and things
             GameObject Damagerobject = Instantiate(swrdATK, transform.position + transform.forward, transform.rotation);
             Damagerobject.transform.parent = transform;
