@@ -1,7 +1,8 @@
+
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.UI;
+
 
 
 public class Playermovement : MonoBehaviour
@@ -12,11 +13,13 @@ public class Playermovement : MonoBehaviour
     public float drag = 0.1f;
     private int Jumpcd = 0;
     private int Dashcd = 0;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-       
+
     }
 
 
@@ -116,4 +119,6 @@ public class Playermovement : MonoBehaviour
 
 
     }
+
 }
+

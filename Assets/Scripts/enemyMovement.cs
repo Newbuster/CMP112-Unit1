@@ -12,7 +12,7 @@ public class enemyMovement : MonoBehaviour
     public float maxSpeed;
     public float drag;
 
-    private bool dashing;
+    public bool dashing;
     public float dashDist;
     public float dashDelay;
     public float dashLength;
@@ -34,6 +34,7 @@ public class enemyMovement : MonoBehaviour
        
         //Stop moving
         dashing = true;
+        GetComponent<SphereCollider>().isTrigger = true;
         rb.linearVelocity = Vector3.zero;
 
         //Dash
@@ -41,6 +42,7 @@ public class enemyMovement : MonoBehaviour
 
         //Wait until dash finished
         yield return new WaitForSeconds(dashLength);
+        GetComponent<SphereCollider>().isTrigger = true;
         dashing = false;
     }
 

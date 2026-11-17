@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class enemyCollide : MonoBehaviour
 {
+    public GameObject Counter;
     private bool colliding = false;
     public float iframes;
     public float health;
@@ -13,19 +14,21 @@ public class enemyCollide : MonoBehaviour
  
     IEnumerator dealDamage(int dmgAmt)
     {
+        print(dmgAmt);
         //Stops further collisions from causing damage 
         colliding = true;
         yield return new WaitForSeconds(iframes);
 
         //Deals damage
-        health -= 35;
+        health -= dmgAmt;
    
 
-        //Kills enemy if health reaches 0
+        //Kills enemy if health reaches 0 and increases killcount
         if (health <= 0)
         {
             print("Enemy Defeated");
             Destroy(gameObject);
+            Counter.GetComponent<GameController>().killCount++;
         }
         else
         {
@@ -43,7 +46,7 @@ public class enemyCollide : MonoBehaviour
         hpBar = transform.Find("Canvas").Find("HealthBar").GetComponent<Slider>();
     }
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         hpBar.value = health / maxHealth;
     }

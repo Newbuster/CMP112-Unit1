@@ -24,7 +24,6 @@ public class Damager : MonoBehaviour
             Destroy(Hitbox, 0.25f);
 
             yield return new WaitForSeconds(0.05f);
-         
         }
     }
 }

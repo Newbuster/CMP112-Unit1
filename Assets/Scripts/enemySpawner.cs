@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class enemySpawner : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class enemySpawner : MonoBehaviour
 
     public GameObject player;
     public GameObject camera;
+    public GameObject Counter;
+  
 
     IEnumerator spawnWait()
     {
@@ -32,6 +35,9 @@ public class enemySpawner : MonoBehaviour
             GameObject enemy;
             enemy = Instantiate(enemyPrefab);
             enemy.transform.position = transform.position;
+
+            //Gives the enemy information about the counter
+            enemy.GetComponent<enemyCollide>().Counter = Counter; 
 
             //Gets enemyMovement script from newly created enemy and stores the player
             enemyMovement moveScript = enemy.GetComponent<enemyMovement>();
