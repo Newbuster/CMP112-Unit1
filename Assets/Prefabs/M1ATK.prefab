@@ -45,3 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Damager
   hitbox: {fileID: 5021910638579597129, guid: 1600a52c1fd50564e8af55288b1bb83f, type: 3}
+  atkdamage: 1

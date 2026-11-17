@@ -40,14 +40,10 @@ public class PlayerOffensecontroller : MonoBehaviour
     {
         for (int i = 0; i < 2; i++)
         {
-            //swings twice
+           //swings twice
            StartCoroutine(swordscript.Swing()); 
-           //spawns a damager which will create hitboxes and things
-            GameObject Damagerobject = Instantiate(swrdATK, transform.position + transform.forward, transform.rotation);
-            Damagerobject.transform.parent = transform;
-            Destroy(Damagerobject, 0.5f);
 
-            yield return new WaitForSeconds(0.5f);
+           yield return new WaitForSeconds(0.25f);
         }
      
         

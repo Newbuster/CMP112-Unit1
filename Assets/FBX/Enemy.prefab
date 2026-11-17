@@ -471,7 +471,7 @@ MonoBehaviour:
   dashDelay: 0.25
   dashLength: 1
   dashMult: 1.5
-  knockbackMult: 3
+  knockbackMult: 5
   iframes: 0.75
 --- !u!1 &5422822315622250873
 GameObject:

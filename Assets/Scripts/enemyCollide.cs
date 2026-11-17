@@ -8,7 +8,7 @@ public class enemyCollide : MonoBehaviour
     private bool colliding = false;
     public float iframes;
     public float health;
-    public float maxHealth;
+    private float maxHealth;
     private Slider hpBar;
  
     IEnumerator dealDamage(int dmgAmt)
@@ -18,7 +18,7 @@ public class enemyCollide : MonoBehaviour
         yield return new WaitForSeconds(iframes);
 
         //Deals damage
-        health -= 35;
+        health -= dmgAmt;
    
 
         //Kills enemy if health reaches 0
@@ -51,7 +51,6 @@ public class enemyCollide : MonoBehaviour
     //Called upon collision with the sword during an attack
     void OnTriggerEnter(Collider other)
     {
- 
         //Checks for repeat collisions
         if (!colliding)
         {

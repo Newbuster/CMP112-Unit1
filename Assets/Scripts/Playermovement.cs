@@ -10,13 +10,21 @@ public class Playermovement : MonoBehaviour
     public float speed = 10;
     public float maxspeed = 10;
     public float drag = 0.1f;
-    private int Jumpcd = 0;
-    private int Dashcd = 0;
+    public float jumpHeight = 20;
+    public float dashLength = 40;
+    public int jumpCD = 0;
+    public int dashCD = 0;
+    private int jumpTimer;
+    private int dashTimer;
+    private bool jumpReady = true;
+    private bool dashReady = true;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-       
+        jumpTimer = jumpCD;
+        dashTimer = dashCD;
     }
 
 
@@ -44,15 +52,6 @@ public class Playermovement : MonoBehaviour
             rb.AddForce(-rb.linearVelocity * rb.linearVelocity.magnitude * drag);
         }
 
-        //Default drag for when player isnt moving
-        if (rb.linearVelocity.magnitude > 0.0f)
-        {
-            if (Input.anyKey == false)
-            {
-                rb.AddForce(-rb.linearVelocity * 50);
-            }
-        }
-
 
         //Sets player's rotation to direction of movement only when player is moving
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) == true)
@@ -62,58 +61,47 @@ public class Playermovement : MonoBehaviour
             transform.eulerAngles = rotation;
         }
 
-        if (Jumpcd > 0)
+        //Decrease jump and dash cooldowns
+        if (!jumpReady && jumpTimer > 0)
         {
-            if (Physics.Raycast(transform.position, Vector3.down, 0.5f))
-            {
-                Jumpcd--;
-            }
+            print(jumpTimer);
+            jumpTimer--;
         }
-        if (Dashcd > 0)
+        else
         {
-            if (Physics.Raycast(transform.position, Vector3.down, 0.25f))
-            {
-                Dashcd--;
-            }
+            jumpReady = true;
+            jumpTimer = jumpCD;
+        }
+
+        if (!dashReady && dashTimer > 0)
+        {
+            print(dashTimer);
+            dashTimer--;
+        }
+        else
+        {
+            dashReady = true;
+            dashTimer = dashCD;
         }
 
         //jumping lalala
-        if (Input.GetKey(KeyCode.Space)) 
+        if (Input.GetKey(KeyCode.Space))
         {
-        
-            if (Physics.Raycast(transform.position, Vector3.down, 0.5f))
+            if (Physics.Raycast(transform.position, Vector3.down, 0.25f) && jumpReady)
             {
-                if (Jumpcd == 0)
-                {
-                   
-                    rb.AddForce (new Vector3(0, 80, 0), ForceMode.Impulse);
-                     Jumpcd = 25;
-                 
-                }
-                
+                rb.AddForce(new Vector3(0, jumpHeight, 0), ForceMode.Impulse);
+                jumpReady = false;
             }
         }
 
         //dashing lalala
         if (Input.GetKey(KeyCode.LeftShift))
         {
-
-            if (Physics.Raycast(transform.position, Vector3.down, 0.25f))
+            if (Physics.Raycast(transform.position, Vector3.down, 0.25f) && dashReady)
             {
-                print("grounddashing");
-                if (Dashcd == 0)
-                {
-
-                    rb.AddForce(transform.forward * 40, ForceMode.Impulse);
-                    Dashcd = 25;
-
-                } 
-
+                rb.AddForce(transform.forward * dashLength, ForceMode.Impulse);
+                dashReady = false;
             }
-
-            
         }
-
-
     }
 }

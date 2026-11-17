@@ -6,6 +6,7 @@ public class Swordmovement : MonoBehaviour
 {
    
     public GameObject Player;
+    public GameObject hitbox;
     private Vector3 offset;
     private bool swinging;
     
@@ -13,10 +14,9 @@ public class Swordmovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-       
         offset = transform.position - Player.transform.position;
         swinging = false;
-       
+        hitbox.SetActive(false);
     }
 
     // Update is called once per frame
@@ -36,24 +36,21 @@ public class Swordmovement : MonoBehaviour
     {
         
         swinging = true;
+        hitbox.SetActive(true);
         float swingtime = 0.25f;
         float timer = 0f;
         float cAngle;
   
-
-        print("swinging");
         do
         {
             timer += Time.deltaTime;
             cAngle = (270*timer/swingtime);
-            transform.rotation = Quaternion.Euler(0, Player.transform.eulerAngles.y, 0) * Quaternion.Euler(0, cAngle, 0);
+            transform.rotation = Quaternion.Euler(Player.transform.eulerAngles.x, Player.transform.eulerAngles.y, 0) * Quaternion.Euler(cAngle/15, cAngle, 0);
           
             yield return null;
         } while (timer <= swingtime);
 
         swinging = false;
-
+        hitbox.SetActive(false);
     }
-
-
 }
