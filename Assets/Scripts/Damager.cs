@@ -21,7 +21,7 @@ public class Damager : MonoBehaviour
             GameObject Hitbox = Instantiate(hitbox, transform.position+transform.forward*2, transform.rotation);
             Hitbox.GetComponent<Hitboxscript>().Damage = atkdamage;
             Hitbox.GetComponent<BoxCollider>().isTrigger = true;
-            Destroy(Hitbox, 0.25f);
+            Destroy(Hitbox, 0.1f);
 
             yield return new WaitForSeconds(0.05f);
         }
